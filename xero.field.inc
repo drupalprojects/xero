@@ -178,7 +178,7 @@ function xero_field_widget_form(&$form, $form_state, $field, $instance, $langcod
     $label_key = empty($type['label']) ? 'guid' : 'label';
 
     foreach ($items as $delta => $item) {
-      $guids[] = isset($item['guid']) ? $item[$label_key] : '';
+      $guids[] = isset($item['guid']) ? ($item['guid'] . ' (' . $item[$label_key] . ')') : '';
     }
 
     $element += array(

@@ -234,17 +234,16 @@ function xero_field_widget_form(&$form, $form_state, $field, $instance, $langcod
  * with the correct keys, guid and label.
  */
 function xero_field_autocomplete_validate($element, &$form_state) {
+  $item = array();
   if (!empty($element['#value']) && !is_array($element['#value'])) {
     // Autocomplete field widget must be expanded into an array.
     preg_match('/(\S+) \((.+)\)/', $element['#value'], $matches);
-    $item = array(
-      array(
-        'guid' => $matches[1],
-        'label' => $matches[2],
-      ),
+    $item[] = array(
+      'guid' => $matches[1],
+      'label' => $matches[2],
     );
-    form_set_value($element, $item, $form_state);
   }
+  form_set_value($element, $item, $form_state);
 }
 
 /**

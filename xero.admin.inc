@@ -19,13 +19,18 @@ function xero_admin_settings($form, &$form_state) {
   }
   catch (XeroException $e) {
     $xero_loaded = FALSE;
-    drupal_set_message(t('Error: @message', array('@message' => $e->getMessage())), 'error');
+    xero_error(0, '', $e->getMessage());
     watchdog_exception('xero', $e, 'Xero certificate is missing.');
+  }
+  catch (Exception $e) {
+    $xero_loaded = FALSE;
+    xero_error(0, '', 'An error occurred trying to load the Xero library: ' . $e->getMessage(), $items);
+    watchdog_exception('xero', $e, '%message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
   }
 
   $items = array(
     array(
-      'title' => t('Add Xero Application on Xero.com'), 
+      'title' => t('Add Xero Application on Xero.com'),
       'href' => 'https://api.xero.com/Application/Add',
     ),
     array(
@@ -81,7 +86,7 @@ function xero_admin_settings($form, &$form_state) {
     '#required' => TRUE,
   );
 
-  if (!empty($xero_loaded) && $xero->verify()) {
+  if ($xero_loaded && $xero->verify()) {
     // Only display defaults if configured correctly.
 
     $form['defaults'] = array(

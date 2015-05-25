@@ -169,7 +169,11 @@ function xero_xero_make_info() {
  * @return object A PHP-Xero object or NULL.
  */
 function xero_php_load($method = 'json') {
-  module_load_include('php', 'xero', 'include/xero');
+  $loaded = module_load_include('php', 'xero', 'include/xero');
+
+  if (!$loaded) {
+    throw new Exception(t('include/xero.php does not exist within !path.', array('!path' => drupal_get_path('module', 'xero'))));
+  }
 
   $key = variable_get('xero_consumer_key', '');
   $secret = variable_get('xero_consumer_secret', '');
@@ -207,7 +211,19 @@ function xero_php_load($method = 'json') {
  *
  */
 function xero_query($type = 'get', $action, $id = FALSE, $after = FALSE, $items = array(), $method = 'json') {
-  $xero = xero_php_load($method);
+  try {
+    $xero = xero_php_load($method);
+  }
+  catch (XeroException $e) {
+    xero_error(0, '', 'An error occurred trying to connect to Xero. Please contact the site administrator.', $items);
+    watchdog_exception('xero', $e, '%message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
+    return NULL;
+  }
+  catch (Exception $e) {
+    xero_error(0, '', 'An error occurred trying to load the Xero library. Please contact the site administrator.', $items);
+    watchdog_exception('xero', $e, '%message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
+    return NULL;
+  }
 
   if (!$xero->verify()) {
     xero_error(0, '', 'Error trying to make a xero connection object.', $items);

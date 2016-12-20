@@ -21,7 +21,7 @@ class SettingsFormTest extends FormTestBase {
 
   use \Drupal\simpletest\AssertHelperTrait;
 
-  protected $pemFile = __DIR__ . DIRECTORY_SEPARATOR . '../../../fixtures/dummy.pem';
+  protected $pemFile;
 
   /**
    * Test file element validation.
@@ -63,6 +63,8 @@ class SettingsFormTest extends FormTestBase {
    */
   protected function setUp() {
     parent::setUp();
+
+    $this->pemFile = __DIR__ . DIRECTORY_SEPARATOR . '../../../fixtures/dummy.pem';
 
     // Mock XeroQuery service.
     $this->xeroQuery = $this->getMockBuilder('\Drupal\xero\XeroQuery')

@@ -21,8 +21,7 @@ class SettingsFormTest extends FormTestBase {
 
   use \Drupal\simpletest\AssertHelperTrait;
 
-  protected $privateKey;
-  protected $pemFile;
+  protected $pemFile = __DIR__ . DIRECTORY_SEPARATOR . '../../../fixtures/dummy.pem';
 
   /**
    * Test file element validation.
@@ -116,35 +115,6 @@ class SettingsFormTest extends FormTestBase {
     \Drupal::setContainer($container);
 
     $this->settingsForm = SettingsForm::create($container);
-
-    // Create private key file.
-    $this->pemFile = $this->getRandomGenerator()->word(15) . '.pem';
-    $privateKey = $this->createPrivateKey();
-    openssl_pkey_export($privateKey, $output);
-    file_put_contents($this->pemFile, $output);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function tearDown() {
-    if (file_exists($this->pemFile)) {
-      unlink($this->pemFile);
-    }
-
-    parent::tearDown();
-  }
-
-  /**
-   * Create a private key for tests.
-   *
-   * @return openssl_pkey
-   *   An OpenSSL private key object.
-   *
-   * @see \BlackOptic\Bundle\XeroBundle\XeroClient::__construct().
-   */
-  private function createPrivateKey() {
-    return openssl_pkey_new(['digest_alg' => 'sha1', 'private_key_bits' => 1024, 'private_key_type' => OPENSSL_KEYTYPE_RSA]);
   }
 
   /**
@@ -157,21 +127,4 @@ class SettingsFormTest extends FormTestBase {
     return strtoupper(hash('ripemd128', md5($this->getRandomGenerator()->string(30))));
   }
 
-  /**
-   * Create a Guid.
-   *
-   * @return string
-   *   A valid globally-unique identifier.
-   */
-  protected function createGuid($braces = TRUE) {
-    $hash = strtoupper(hash('ripemd128', md5($this->getRandomGenerator()->string(100))));
-    $guid = substr($hash, 0, 8) . '-' . substr($hash, 8, 4) . '-' . substr($hash, 12, 4);
-    $guid .= '-' . substr($hash, 16, 4) . '-' . substr($hash, 20, 12);
-
-    // A Guid string representation should be output as lower case per UUIDs
-    // and GUIDs Network Working Group INTERNET-DRAFT 3.3.
-    $guid = strtolower($guid);
-
-    return $guid;
-  }
 }

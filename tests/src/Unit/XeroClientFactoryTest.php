@@ -6,7 +6,6 @@ use Drupal\xero\XeroClientFactory;
 use Drupal\Core\Logger\LoggerChannelFactory;
 use Drupal\Tests\UnitTestCase;
 use Prophecy\Argument;
-use Symfony\Component\HttpKernel\Log\NullLogger;
 
 /**
  * Tests getting the XeroClient class.
@@ -51,9 +50,9 @@ class XeroClientFactoryTest extends UnitTestCase {
    * @return \Drupal\Core\Logger\LoggerChannelFactoryInterface
    */
   protected function getLoggerFactory() {
-    $nullLogger = new NullLogger();
+    $logProphet = $this->prophesize('\Psr\Log\LoggerInterface');
     $loggerFactory = new LoggerChannelFactory();
-    $loggerFactory->addLogger($nullLogger);
+    $loggerFactory->addLogger($logProphet->reveal());
     return $loggerFactory;
   }
 

@@ -15,7 +15,6 @@ use Drupal\Tests\UnitTestCase;
 use Drupal\xero\XeroQuery;
 use Drupal\xero\Normalizer\XeroNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\HttpKernel\Log\NullLogger;
 
 /**
  * Class XeroQueryTestBase provides helper methods for unit tests.
@@ -61,8 +60,9 @@ abstract class XeroQueryTestBase extends UnitTestCase {
       ->getMock();
 
     // Setup LoggerChannelFactory.
+    $loggerProphet = $this->prophesize('\Psr\Log\LoggerInterface');
     $this->loggerFactory = new LoggerChannelFactory();
-    $this->loggerFactory->addLogger(new NullLogger());
+    $this->loggerFactory->addLogger($loggerProphet->reveal());
 
     // Mock the Typed Data Manager.
     $this->typedDataManager = $this->getMockBuilder('Drupal\Core\TypedData\TypedDataManager')
@@ -84,9 +84,9 @@ abstract class XeroQueryTestBase extends UnitTestCase {
     $this->serializer = new Serializer([
       new ComplexDataNormalizer(),
       new XeroNormalizer($this->typedDataManager),
-      new TypedDataNormalizer()
+      new TypedDataNormalizer(),
     ], [
-      new XmlEncoder()
+      new XmlEncoder(),
     ]);
 
     $this->query = new XeroQuery($this->client, $this->serializer, $this->typedDataManager, $this->loggerFactory, $this->cache);

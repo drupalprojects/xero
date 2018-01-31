@@ -20,8 +20,12 @@ services:
     class: Drupal\xero\Normalizer\XeroListNormalizer
     tags:
       - { name: normalizer, priority: 10 }
+  xero.query.factory:
+    class: Drupal\xero\XeroQueryFactory
+    arguments: ['@xero.client', '@serializer', '@typed_data_manager', '@logger.factory', '@cache.xero_query']
   xero.query:
     class: Drupal\xero\XeroQuery
+    factory: xero.query.factory:get
     arguments: ['@xero.client', '@serializer', '@typed_data_manager', '@logger.factory', '@cache.xero_query']
   xero.form_builder:
     class: Drupal\xero\Form\XeroFormBuilder

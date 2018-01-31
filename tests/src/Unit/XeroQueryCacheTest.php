@@ -67,9 +67,6 @@ class XeroQueryCacheTest extends XeroQueryTestBase {
       ->method('appendItem')
       ->willReturn($this->userData);
     $this->listData->expects($this->any())
-      ->method('createItem')
-      ->willReturn($this->userData);
-    $this->listData->expects($this->any())
       ->method('get')
       ->with(0)
       ->willReturn($this->userData);
@@ -183,10 +180,8 @@ class XeroQueryCacheTest extends XeroQueryTestBase {
   public function testGetSetCache() {
     $this->client->expects($this->any())
       ->method('__call')
+      ->with('get')
       ->willReturn($this->getMockResponse());
-    $this->client->expects($this->any())
-      ->method('get')
-      ->willreturn($this->getMockResponse());
 
     /** @var \Drupal\Core\TypedData\Plugin\DataType\ItemList $data */
     $data = $this->query->getCache('xero_user');

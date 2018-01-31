@@ -1,12 +1,8 @@
 <?php
-/**
- * @file
- * Contains \Drupal\xero\Normalizer\XeroListNormalizer.
- */
 
 namespace Drupal\xero\Normalizer;
 
-use Drupal\serialization\Normalizer\ComplexDataNormalizer;
+use Drupal\serialization\Normalizer\TypedDataNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -14,7 +10,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * Drupal's ListNormalizer is explicitly for field data and does not pass in
  * plugin id as context.
  */
-class XeroListNormalizer extends ComplexDataNormalizer implements NormalizerInterface {
+class XeroListNormalizer extends TypedDataNormalizer implements NormalizerInterface {
 
   protected $supportedInterfaceOrClass = 'Drupal\xero\Plugin\DataType\XeroItemList';
 

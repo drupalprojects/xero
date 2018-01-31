@@ -8,7 +8,7 @@ use Drupal\Component\Uuid\Uuid;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\TypedData\ListInterface;
-use Drupal\Core\TypedData\TypedDataManager;
+use Drupal\Core\TypedData\TypedDataManagerInterface;
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\Serializer\Serializer;
 // use Drupal\xero\XeroQueryInterface;
@@ -96,14 +96,14 @@ class XeroQuery /*implements XeroQueryInterface */ {
    *   The xero client object to make requests.
    * @param Serializer $serializer
    *   The serialization service to handle normalization and denormalization.
-   * @param TypedDataManager $typed_data
+   * @param TypedDataManagerInterface $typed_data
    *   The Typed Data manager for retrieving definitions of xero types.
    * @param LoggerChannelFactoryInterface $logger_factory
    *   The logger factory service for error logging.
    * @param CacheBackendInterface $cache
    *   The cache backend for Xero Query cache.
    */
-  public function __construct($client, Serializer $serializer, TypedDataManager $typed_data, LoggerChannelFactoryInterface $logger_factory, CacheBackendInterface $cache) {
+  public function __construct($client, Serializer $serializer, TypedDataManagerInterface $typed_data, LoggerChannelFactoryInterface $logger_factory, CacheBackendInterface $cache) {
     $this->client = $client;
     $this->serializer = $serializer;
     $this->typed_data = $typed_data;

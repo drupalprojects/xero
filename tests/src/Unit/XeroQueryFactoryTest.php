@@ -71,8 +71,8 @@ class XeroQueryFactoryTest extends UnitTestCase {
    * Asserts that a new xero query object is created.
    */
   public function testGetOnce() {
-    $factory = new XeroQueryFactory();
-    $query = $factory->get($this->xeroClient, $this->serializer, $this->typedDataManager, $this->loggerChannelFactory, $this->cacheBackend);
+    $factory = new XeroQueryFactory($this->xeroClient, $this->serializer, $this->typedDataManager, $this->loggerChannelFactory, $this->cacheBackend);
+    $query = $factory->get();
     $this->assertInstanceOf('\Drupal\xero\XeroQuery', $query);
   }
 
@@ -80,12 +80,12 @@ class XeroQueryFactoryTest extends UnitTestCase {
    * Asserts that a new xero query object is created.
    */
   public function testGetUnique() {
-    $factory = new XeroQueryFactory();
-    $queryOne = $factory->get($this->xeroClient, $this->serializer, $this->typedDataManager, $this->loggerChannelFactory, $this->cacheBackend);
+    $factory = new XeroQueryFactory($this->xeroClient, $this->serializer, $this->typedDataManager, $this->loggerChannelFactory, $this->cacheBackend);
+    $queryOne = $factory->get();
 
     $queryOne->addCondition('Type', 'BANK');
 
-    $queryTwo = $factory->get($this->xeroClient, $this->serializer, $this->typedDataManager, $this->loggerChannelFactory, $this->cacheBackend);
+    $queryTwo = $factory->get();
 
     $this->assertEmpty($queryTwo->getConditions());
   }

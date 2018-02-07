@@ -25,7 +25,6 @@ services:
     arguments: ['@xero.client', '@serializer', '@typed_data_manager', '@logger.factory', '@cache.xero_query']
   xero.query:
     class: Drupal\xero\XeroQuery
-    factory: xero.query.factory:get
     arguments: ['@xero.client', '@serializer', '@typed_data_manager', '@logger.factory', '@cache.xero_query']
   xero.form_builder:
     class: Drupal\xero\Form\XeroFormBuilder

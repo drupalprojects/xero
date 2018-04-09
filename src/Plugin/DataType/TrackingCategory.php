@@ -9,7 +9,8 @@ namespace Drupal\xero\Plugin\DataType;
 use Drupal\Core\TypedData\Plugin\DataType\Map;
 
 /**
- * Xero line item type
+ * Xero Tracking Category type, as defined at
+ * https://developer.xero.com/documentation/api/tracking-categories
  *
  * @DataType(
  *   id = "xero_tracking",

@@ -27,6 +27,7 @@ class LineItemDefinition extends ComplexDataDefinitionBase {
       $info['UnitAmount'] = DataDefinition::create('float')->setLabel('Unit amount');
       $info['ItemCode'] = DataDefinition::create('string')->setLabel('Item code')->setDescription('User-defined item code');
       $info['AccountCode'] = DataDefinition::create('string')->setLabel('Account code')->setDescription('User-defined account code');
+      $info['Tracking'] = ListDataDefinition::create('xero_tracking_option')->setLabel('Tracking categories')->setDescription('User-defined tracking categories (0, 1, or 2 per line item)');
     }
     return $this->propertyDefinitions;
   }

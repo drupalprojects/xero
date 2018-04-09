@@ -110,6 +110,7 @@ class XeroDefinitionTest extends UnitTestCase {
       ['xero_tax_component', 'TaxComponentDefinition', 'Name'],
       ['xero_tax_rate', 'TaxRateDefinition', 'Name'],
       ['xero_tracking', 'TrackingCategoryDefinition', 'Name'],
+      ['xero_tracking_option', 'TrackingOptionDefinition', 'Name'],
       ['xero_user', 'UserDefinition', 'UserID'],
     ];
   }
